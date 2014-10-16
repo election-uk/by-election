@@ -1,0 +1,11 @@
+{
+	"name": "by-election",
+	"version": "0.1.0",
+	"author": "Jim Anning",
+	"dependencies":{
+		"mongodb": "1.4.x",
+		"twitter": "0.2.x"
+	},
+	"private": true
+
+}

@@ -8,7 +8,7 @@ var twit = new twitter({
     access_token_secret: '51xnPhjS0KcqeiWKFW2IJyeegHhHgtOZLvnthTtEoQJVE'
 });
 
-twit.stream('public', {track:'fgw'}, function(stream) {
+twit.stream('user', {track:'fgw'}, function(stream) {
     stream.on('data', function(data) {
         console.log(data);
     });
@@ -16,6 +16,7 @@ twit.stream('public', {track:'fgw'}, function(stream) {
     setTimeout(stream.destroy, 5000);
 });
 
+/*
 var url = 'mongodb://localhost:27017/myproject';
 // Use connect method to connect to the Server
 MongoClient.connect(url, function(err, db) {
@@ -45,3 +46,5 @@ MongoClient.connect(url, function(err, db) {
   
 
 });
+
+*/
