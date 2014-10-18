@@ -59,7 +59,7 @@ var getTweets = function(searchTerm, sinceId, maxId, callback){
 };
 
 
-var url = 'mongodb://localhost:27017/myproject';
+var url = 'mongodb://localhost:27017/byelection';
 // Use connect method to connect to the Server
 MongoClient.connect(url, function(err, db) {
 	
