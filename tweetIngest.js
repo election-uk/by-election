@@ -54,12 +54,7 @@ var getTweets = function(searchTerm, sinceId, maxId, callback){
       //invoke callback
       console.log('invoking callback')
       callback(tweets);
-    }
-   
-    //TODOadd recursion
-
-    
-    
+    }  
   });
 };
 
@@ -76,12 +71,19 @@ MongoClient.connect(url, function(err, db) {
 
     
       hashtagCollection.find({}).toArray(function(err, hashtags){
+      
+
       console.log(hashtags);
+      if (hashtags.length == 0){
+        console.log('no hashtags found to collect');
+        db.close();
+      }
 
       var finishedHashtag = _.after(hashtags.length, function(){
         console.log('all hashtags finished closing db connnection');
         db.close();
       });
+
        _.each(hashtags, function(hashtag){
         //console.log(hashtag);
 
@@ -124,13 +126,6 @@ MongoClient.connect(url, function(err, db) {
     });
 
    });
-    
-
-    
-    //console.log(hashtags);
-   
-
-
 
 });
 
