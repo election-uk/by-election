@@ -78,8 +78,8 @@ MongoClient.connect(url, function(err, db) {
       hashtagCollection.find({}).toArray(function(err, hashtags){
       console.log(hashtags);
 
-      var finshedHashtag = _.after(hashtags.length, function(){
-        console.log('closing db connnection');
+      var finishedHashtag = _.after(hashtags.length, function(){
+        console.log('all hashtags finished closing db connnection');
         db.close();
       });
        _.each(hashtags, function(hashtag){
@@ -97,7 +97,7 @@ MongoClient.connect(url, function(err, db) {
         getTweets(hashtag.tag, maxId, function(tweets) {
           var storedTweets = _.after(tweets.length, function(){
             console.log('sotred all tweets for ', hashtag);
-            finshedHashtag();
+            finishedHashtag();
           });
           //console.log(typeof data.statuses);
           console.log('got ',tweets.length, 'tweets');
