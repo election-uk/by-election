@@ -35,9 +35,9 @@ var getTweets = function(searchTerm, sinceId, maxId, callback){
   twit.search(searchTerm, params, function(data){
     var tw = _.toArray(data.statuses);
     tweets = tweets.concat(tw);
-    //TODO deal with duplication
+    
 
-    if (tw.length == 100){
+    if (tw.length == 100 && sinceId != 0){ //only get 100 on first run - i.e. do not go back and get past
       //need to go get more - prob need a max number of iterations though??
 
        //get lowest id
