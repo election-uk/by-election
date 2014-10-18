@@ -1,5 +1,8 @@
+//harvest hashtaged tweets
+
 var MongoClient = require('mongodb').MongoClient;
 var twitter = require('twitter');
+var _ = require('underscore');
 
 var twit = new twitter({
     consumer_key: 'ZdpUoZCeryIJQ6h8Hwcf9nxgn',
@@ -8,43 +11,52 @@ var twit = new twitter({
     access_token_secret: '51xnPhjS0KcqeiWKFW2IJyeegHhHgtOZLvnthTtEoQJVE'
 });
 
-twit.stream('user', {track:'fgw'}, function(stream) {
-    stream.on('data', function(data) {
-        console.log(data);
-    });
-    // Disconnect stream after five seconds
-    setTimeout(stream.destroy, 5000);
-});
-
-/*
 var url = 'mongodb://localhost:27017/myproject';
 // Use connect method to connect to the Server
 MongoClient.connect(url, function(err, db) {
 	
 	console.log(err);
-  	console.log("Connected correctly to server");
+  	console.log("Connected to mongo");
 
-  	var collection = db.collection('test');
+  	var tweetCollection = db.collection('tweets');
+    var hashtagCollection = db.collection('hashtags');
 
-  	collection.insert([{id: 1, tweet:'hello'}, {id:2, tweet:'world'}], function(err, result){
-  		console.log(result);
- 	
-  		collection.find({tweet:'world'}).toArray(function(err, docs) {
-	    	console.log('search results');
-	    	console.log(err);
-	    	console.log(docs);
+    //get max id
 
-	    	console.log('closing db connection');
-  			db.close();
-    	
-  		}); 
+   tweetCollection.findOne({ $query: {}, $orderby: { id_str : -1 }}, {id_str:true}, function(err, m){
+    var maxId = m.id_str;
+    console.log('maxId', maxId);
+      hashtagCollection.find({}).toArray(function(err, hashtags){
+      console.log(hashtags);
+       _.each(hashtags, function(hashtag){
+        //console.log(hashtag);
+        console.log('searching twitter for', hashtag.tag)
+        twit.search(hashtag.tag, {count:100, since_id: maxId}, function(data) {
+          //console.log(typeof data.statuses);
+          console.log(data.statuses);
+          _.each(data.statuses, function(d){
+            console.log('inserting', d.text);
+            tweetCollection.insert(d, function(err,res){
+              console.log('insert', err);
+            });
+          })
+        
+        });
+      
 
- 	});
+      });
+      //db.close();
 
-  	
-  
-  
+    });
+
+   });
+    
+
+    
+    //console.log(hashtags);
+   
+
+
 
 });
 
-*/
