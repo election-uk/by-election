@@ -36,11 +36,8 @@ var getTweets = function(searchTerm, sinceId, maxId, callback){
     var tw = _.toArray(data.statuses);
     tweets = tweets.concat(tw);
     
-
     if (tw.length == 100 && sinceId != 0){ //only get 100 on first run - i.e. do not go back and get past
-      //need to go get more - prob need a max number of iterations though??
-
-       //get lowest id
+      
       var lowestId = _.min(tw, function(t){return t.id_str;}).id_str;
       console.log('lowestId', lowestId);
 
@@ -51,8 +48,6 @@ var getTweets = function(searchTerm, sinceId, maxId, callback){
       });
 
     }else{
-      //invoke callback
-      console.log('invoking callback')
       callback(tweets);
     }  
   });
@@ -60,7 +55,7 @@ var getTweets = function(searchTerm, sinceId, maxId, callback){
 
 
 var url = 'mongodb://localhost:27017/byelection';
-// Use connect method to connect to the Server
+
 MongoClient.connect(url, function(err, db) {
 	
 	console.log(err);
@@ -70,9 +65,8 @@ MongoClient.connect(url, function(err, db) {
     var hashtagCollection = db.collection('hashtags');
 
     
-      hashtagCollection.find({}).toArray(function(err, hashtags){
+    hashtagCollection.find({}).toArray(function(err, hashtags){
       
-
       console.log(hashtags);
       if (hashtags.length == 0){
         console.log('no hashtags found to collect');
@@ -89,43 +83,34 @@ MongoClient.connect(url, function(err, db) {
 
         tweetCollection.findOne({ $query: {hashtag:hashtag}, $orderby: { id_str : -1 }}, {id_str:true}, function(err, m){
           
-          var maxId;
-          if (m == null){
-            maxId = '0';
-          }else{
-            maxId = m.id_str;
-          }
+        var maxId;
+        if (m == null){
+          maxId = '0';
+        }else{
+          maxId = m.id_str;
+        }
         
         getTweets(hashtag.tag, maxId, function(tweets) {
           var storedTweets = _.after(tweets.length, function(){
-            console.log('sotred all tweets for ', hashtag);
+            console.log('stored all tweets ('+tweets.length+') for ', hashtag);
             finishedHashtag();
           });
-          //console.log(typeof data.statuses);
-          console.log('got ',tweets.length, 'tweets');
-
+    
           if (tweets.length == 0){
             console.log('finished hashtag 0 tweets');
             finishedHashtag();
           }
+
           _.each(tweets, function(t){
-            //console.log('inserting', t.text);
+           
             t.hashtag = hashtag;
             tweetCollection.insert(t, function(err,res){
-              //console.log('insert', err);
               storedTweets();
             });
-          })
-        
+          });
         });
-      
-
       });
-      //db.close();
-
     });
-
    });
-
 });
 
