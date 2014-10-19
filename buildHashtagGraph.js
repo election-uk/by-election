@@ -69,11 +69,15 @@ MongoClient.connect(url, function(err, db) {
 		});
 
 	
-		console.log(_.sortBy(_.filter(output, function(p){
+		var pairings = _.sortBy(_.filter(output, function(p){
 			return p.h1 == 'ukip' || p.h2 == 'ukip';
 		}), function(p){
 			return p.pairProb;
-		}));
+		});
+
+		_.each(pairings, function(p){
+			console.log( p.h1+' :: '+p.h2, pairProb);
+		});
 
 		db.close();
 
