@@ -58,7 +58,7 @@ MongoClient.connect(url, function(err, db) {
 			return p.h1+':::'+p.h2;
 		});
 
-		console.log(output);
+		//console.log(output);
 		var totalTweets = data.length;
 		_.each(output, function(pair){
 			var count = _.filter(hashtagPairs, function(p){
@@ -76,7 +76,7 @@ MongoClient.connect(url, function(err, db) {
 		});
 
 		_.each(pairings, function(p){
-			console.log( p.h1+' :: '+p.h2, pairProb);
+			console.log( p.h1+' :: '+p.h2, p.pairProb);
 		});
 
 		db.close();
