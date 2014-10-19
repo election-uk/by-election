@@ -1,0 +1,4 @@
+// stops duplicate tweets being stored
+// mongo cmds
+
+db.things.ensureIndex({'id_str' : 1}, {unique : true, dropDups : true})
