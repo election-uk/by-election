@@ -1,17 +1,11 @@
-
 var _ = require('underscore');
 var MongoClient = require('mongodb').MongoClient;
 
 var arrayToPairs = function(ar){
 
-	//console.log(ar);
-	//do alpha sort on lowercased array
-
-	alphaAr = _.sortBy( _.map(ar, function(a){ return a.toLowerCase(); }) );
-	//console.log(alphaAr);
-
+	var alphaAr = _.sortBy( _.map(ar, function(a){ return a.toLowerCase(); }) );
+	
 	var op = [];
-	// pop off first element & run through next ones - then iterate (maybe recursive?)
 
 	while (alphaAr.length > 1){
 		var h1 = alphaAr.shift();
@@ -23,9 +17,6 @@ var arrayToPairs = function(ar){
 	return op;
 }
 
-
-console.log( arrayToPairs(['Dave', 'jim', 'clive', 'bob', 'RICHARD']) );
-console.log( arrayToPairs(['c', 'a', 'b', 'd']) );
 
 var url = 'mongodb://localhost:27017/byelection';
 
@@ -45,15 +36,7 @@ MongoClient.connect(url, function(err, db) {
 			}
 			
 		});
-		//console.log(hashtagPairs);
-
-		// reduce the pairs to counts
-		/*
-		var output = _.map( _.uniq(hashtagPairs), function(p){
-			p.count = 1;
-			return p;
-		});
-		*/
+		
 		var output = _.uniq(hashtagPairs, function(p){
 			return p.h1+':::'+p.h2;
 		});
@@ -79,11 +62,6 @@ MongoClient.connect(url, function(err, db) {
 
 		db.close();
 
-
 	});
-
-
-
-
 
 });
