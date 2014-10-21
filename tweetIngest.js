@@ -104,6 +104,8 @@ MongoClient.connect(url, function(err, db) {
           }
 
           _.each(tweets, function(t){
+
+            //TO DO - PARSE THE TIMESTAMP INTO A MONGO QUERY_ABLE FORMAT.
            
             t.hashtag = hashtag;
             tweetCollection.insert(t, function(err,res){
