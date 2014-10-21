@@ -10,6 +10,8 @@ var redFn = function(hashtag, count){
 	return Array.sum(count);
 }
 
+// run the job ebery hour to populate an hour by hour table
+// at the same time inremenatlly run a m/r for a totals table
 
 
 
