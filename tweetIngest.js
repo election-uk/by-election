@@ -108,6 +108,8 @@ MongoClient.connect(url, function(err, db) {
             //TO DO - PARSE THE TIMESTAMP INTO A MONGO QUERY_ABLE FORMAT.
            
             t.hashtag = hashtag;
+            var d = new Date(t.created_at);
+            t.ts = d.toISOString();
             tweetCollection.insert(t, function(err,res){
               storedTweets();
             });
