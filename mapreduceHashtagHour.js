@@ -38,7 +38,7 @@ MongoClient.connect(url, function(err, db) {
 			
 				// now reduce that again to count the hashtag totals.
 				var mapFn = function(){
-					emit(_id.hashtag, value);
+					emit(this._id.hashtag, this.value);
 				};
 				var redFn = function(hashtag, count){
 					return Array.sum(count);
