@@ -10,9 +10,6 @@ MongoClient.connect(url, function(err, db) {
 		console.log('err', err);
 		console.log('lastMr', lastMr._id.hour);
 
-		var query = '{ts: {$gt: "'+lastMr._id.hour+'"}}';
-
-		console.log ('query ', query);
 		var mapFn = function(){
 			var hour = this.ts.substr(0,13)+':00:00.000Z';
 			this.entities.hashtags.forEach(function(h){
@@ -27,10 +24,12 @@ MongoClient.connect(url, function(err, db) {
 		var MR = {
 		      mapreduce: "tweets", 
 		      out:  { reduce : 'hashtag_by_hour' },
-		      query: query,
+		      query: {ts: {$gt: lastMr._id.hour}},
 		      map: mapFn.toString(),
 		      reduce: redFn.toString()
 		};
+
+		console.log(MR.toString());
 
 		db.executeDbCommand(MR, function(err, dbres) {
 			  console.log('err', err);
