@@ -33,8 +33,28 @@ MongoClient.connect(url, function(err, db) {
 		db.executeDbCommand(MR, function(err, dbres) {
 			  console.log('err', err);
 		      
-		      console.log("executing map reduce, results:")
+		      console.log("executed hashtag_per_hour map reduce, results:")
 ;		      console.log(JSON.stringify(dbres));
+			
+				// now reduce that again to count the hashtag totals.
+				var mapFn = function(){
+					emit("_id.hashtag", 1);
+				};
+				var redFn = function(hashtag, count){
+					return Array.sum(count);
+				};
+
+				db.executeDbCommand({
+					mapreduce: 'hashtag_by_hour',
+					out: 'hashtag_totals',
+					map: mapFn.toString(),
+					reduce: redFn.toString(),
+				}, function(err,dbres){
+					console.log("executed totals map reduce, results:")
+;		      		console.log(JSON.stringify(dbres));
+					db.close();
+				});
+
 		      db.close();
   		});
 
