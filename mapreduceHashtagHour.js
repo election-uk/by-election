@@ -28,8 +28,8 @@ MongoClient.connect(url, function(err, db) {
 		      mapreduce: "tweets", 
 		      out:  { reduce : 'hashtag_by_hour' },
 		      query: query,
-		      map: mapFn,
-		      reduce: redFn
+		      map: mapFn.toString(),
+		      reduce: redFn.toString()
 		};
 
 		db.executeDbCommand(MR, function(err, dbres) {
