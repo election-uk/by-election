@@ -24,6 +24,23 @@ MongoClient.connect(url, function(err, db) {
 			return Array.sum(count);
 		};
 
+		var MR = {
+		      mapreduce: "tweets", 
+		      out:  { reduce : 'hashtag_by_hour' },
+		      query: query,
+		      map: mapFn,
+		      reduce: redFn
+		};
+
+		db.executeDbCommand(MR, function(err, dbres) {
+		      var results = dbres.documents[0].results
+		      console.log("executing map reduce, results:")
+		      console.log(JSON.stringify(results))
+		      process.exit(1)
+  		});
+
+
+
 
 
 
