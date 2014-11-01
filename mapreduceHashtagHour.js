@@ -24,7 +24,7 @@ MongoClient.connect(url, function(err, db) {
 		var MR = {
 		      mapreduce: "tweets", 
 		      out:  { reduce : 'hashtag_by_hour' },
-		      query: {"ts": {$gt: lastMr._id.hour}},
+		      query: {"ts": {"$gt": lastMr._id.hour}},
 		      map: mapFn.toString(),
 		      reduce: redFn.toString()
 		};
