@@ -50,6 +50,7 @@ MongoClient.connect(url, function(err, db) {
 					map: mapFn.toString(),
 					reduce: redFn.toString(),
 				}, function(err,dbres){
+					console.log('err', err);
 					console.log("executed totals map reduce, results:")
 ;		      		console.log(JSON.stringify(dbres));
 					db.close();
