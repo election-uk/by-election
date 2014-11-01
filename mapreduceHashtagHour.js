@@ -6,7 +6,7 @@ var url = 'mongodb://localhost:27017/byelection';
 MongoClient.connect(url, function(err, db) {
 
 	var mrOutput = db.collection('hashtag_by_hour');
-	mrOuput.findOne({ $query: {}, $orderby: { '_id.hour' : -1 }}, {'_id.hour':true}, function(err, lastMr){
+	mrOutput.findOne({ $query: {}, $orderby: { '_id.hour' : -1 }}, {'_id.hour':true}, function(err, lastMr){
 		console.log('err', err);
 		console.log('lastMr', lastMr);
 	})
