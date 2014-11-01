@@ -24,8 +24,8 @@ MongoClient.connect(url, function(err, db) {
 		var MR = {
 		      mapreduce: "tweets", 
 		      out:  'hashtag_by_hour',
-		      map: mapFn.toString(),
-		      reduce: redFn.toString()
+		      map: mapFn,
+		      reduce: redFn
 		};
 
 		console.log(JSON.stringify(MR));
@@ -34,8 +34,8 @@ MongoClient.connect(url, function(err, db) {
 			  console.log('err', err);
 		      
 		      console.log("executing map reduce, results:")
-		      console.log(JSON.stringify(dbres))
-		      process.exit(1)
+;		      console.log(JSON.stringify(dbres));
+		      db.close();
   		});
 
 
