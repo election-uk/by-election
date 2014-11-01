@@ -10,7 +10,7 @@ MongoClient.connect(url, function(err, db) {
 		console.log('err', err);
 		console.log('lastMr', lastMr._id.hour);
 
-		var query = '{ts: {$gt: lastMr._id.hour}}';
+		var query = '{ts: {$gt: '+lastMr._id.hour+'}}';
 
 		console.log ('query ', query);
 		var mapFn = function(){
