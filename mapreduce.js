@@ -1,8 +1,9 @@
 // Map reduce simple aggregation jobs
 
 var mapFn = function(){
+	var hour = this.ts.substr(0,13)+'00:00.000Z';
 	this.entities.hashtags.forEach(function(h){
-		emit(h.text.toLowerCase(), 1);
+		emit({hour: hour , hashtag: h.text.toLowerCase()}, 1);
 	});
 }
 
@@ -15,10 +16,3 @@ var redFn = function(hashtag, count){
 
 
 
-
-
-
-
-function parseTwitterDate(text) {
-	return new Date(Date.parse(text.replace(/( +)/, ' UTC$1')));
-}
