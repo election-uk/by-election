@@ -23,13 +23,12 @@ MongoClient.connect(url, function(err, db) {
 
 		var MR = {
 		      mapreduce: "tweets", 
-		      out:  { reduce : 'hashtag_by_hour' },
-		      query: {"ts": {"$gt": lastMr._id.hour}},
+		      out:  'hashtag_by_hour',
 		      map: mapFn.toString(),
 		      reduce: redFn.toString()
 		};
 
-		console.log(MR.toString());
+		console.log(JSON.stringify(MR));
 
 		db.executeDbCommand(MR, function(err, dbres) {
 			  console.log('err', err);
