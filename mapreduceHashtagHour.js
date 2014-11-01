@@ -24,8 +24,8 @@ MongoClient.connect(url, function(err, db) {
 		var MR = {
 		      mapreduce: "tweets", 
 		      out:  'hashtag_by_hour',
-		      map: mapFn,
-		      reduce: redFn
+		      map: mapFn.toString(),
+		      reduce: redFn.toString()
 		};
 
 		console.log(JSON.stringify(MR));
