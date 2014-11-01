@@ -34,9 +34,9 @@ MongoClient.connect(url, function(err, db) {
 
 		db.executeDbCommand(MR, function(err, dbres) {
 			  console.log('err', err);
-		      var results = dbres.documents[0].results
+		      
 		      console.log("executing map reduce, results:")
-		      console.log(JSON.stringify(results))
+		      console.log(JSON.stringify(dbres))
 		      process.exit(1)
   		});
 
