@@ -5,7 +5,8 @@
 	"dependencies":{
 		"mongodb": "1.4.x",
 		"twitter": "0.2.x",
-		"underscore": "*"
+		"underscore": "*",
+		"express": "*"
 	},
 	"private": true
 

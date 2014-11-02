@@ -1,0 +1,18 @@
+<head>
+	<script src="jquery-1.11.1.min.js"></script>
+	<script src="main.js"></script>
+</head>
+<body>
+	<h1>Election Hashtags</h1>
+	<div id="top-hashtags"></div>
+
+	<script>
+		//populate top 20 hashtags
+		$.get('/tophashtags/20', function(data){
+			console.log(data);
+			data.forEach(function(hashtag){
+				$('#top-hashtags').append('<li class="hashtag">'+hashtag._id+' : '+hashtag.value+'</li>');
+			});
+		});
+	</script>
+</body>

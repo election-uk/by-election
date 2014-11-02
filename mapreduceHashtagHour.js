@@ -8,7 +8,7 @@ MongoClient.connect(url, function(err, db) {
 	var mrOutput = db.collection('hashtag_by_hour');
 	mrOutput.findOne({ $query: {}, $orderby: { '_id.hour' : -1 }}, {'_id.hour':true}, function(err, lastMr){
 		console.log('err', err);
-		console.log('lastMr', lastMr._id.hour);
+		//console.log('lastMr', lastMr._id.hour);
 
 		var mapFn = function(){
 			var hour = this.ts.substr(0,13)+':00:00.000Z';
