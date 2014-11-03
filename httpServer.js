@@ -23,48 +23,51 @@ app.get('/tophashtags/:n', function(req, res){
 	MongoClient.connect(mongoUrl, function(err, db) {
 		var hashCol = db.collection('hashtag_totals');
 		//try hashCol.find().sort({value:-1}).limit(req.params.n).toArray()
-		hashCol.find({$query:{}, $orderby:{value:-1}}, {limit:req.params.n}, function(err, hash){
-			console.log(hash);
-			hash.toArray(function(err, results){
-				res.setHeader('Content-Type', 'application/json');
-				res.send(results);
-				db.close();
-			});
+		hashCol.find().sort({value:-1}).limit(parseInt(req.params.n)).toArray(function(err, data){
+
+			//console.log(hash);
+			
+			res.setHeader('Content-Type', 'application/json');
+			res.send(data);
+			db.close();
+			
 			
 		});
 		
 	});
 });
 
-app.get('hashtaggraph/:n', function(req, res){
+app.get('/hashtaggraph/:n', function(req, res){
 	//deliver time / volumes for tweets on the watchlist
+	console.log('hashtag graph');
+
+
 	MongoClient.connect(mongoUrl, function(err, db) {
 		var hashCol = db.collection('hashtag_totals');
+		var hourly = db.collection('hashtag_by_hour');
 
-		//try hashCol.find().sort({value:-1}).limit(req.params.n).toArray()
-		hashCol.find({$query:{}, $orderby:{value:-1}}, {limit:req.params.n}, function(err, cursor){
-			console.log(cursor);
-			cursor.toArray(function(err, data){
-				//construct query
-				var hashtagQueries = [];
-				data.forEach(function(h){
-					hashtagQueries[] = '{"id_.hashtag":"'+h._id+'"}';
-					console.log(hashtagQueries);
-
-				})
-				
-				var q = "{$or:["+hashtagQueries.join()+"]}";
-				// var q = {$or:hashtagQueries};
-
-				var hourly = db.collection('hashtag_by_hour');
-				hourly.find($q), function(err, cursor){
-					cursor.toArray(function(hashtags){
-						res.setHeader('Content-Type', 'application/json');
-						res.send(hashtags);
-						db.close();
-					});
-				});
+		hashCol.find().sort({value:-1}).limit(parseInt(req.params.n)).toArray(function(err, data){
+			
+			console.log(data);
+			var hashtagQueries = [];
+			data.forEach(function(h){
+				hashtagQueries.push({"_id.hashtag":h._id});
 			});
+			//console.log(hashtagQueries);
+			//ar q = "{$or:["+hashtagQueries.join()+"]}";
+			var q = {$or:hashtagQueries};
+			//var q = {"_id.hashtag":"ukip"};
+			//console.log(q);
+			
+			hourly.find(q).toArray(function(err, data){
+					console.log('data',data);
+
+					res.setHeader('Content-Type', 'application/json');
+					res.send(data);
+					db.close();
+				
+			});
+			
 		});
 	});
 });
