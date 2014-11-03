@@ -13,6 +13,9 @@ var twit = new twitter({
     access_token_secret: '51xnPhjS0KcqeiWKFW2IJyeegHhHgtOZLvnthTtEoQJVE'
 });
 
+var scriptTimer = function(){
+  return new Date().toUTCString();
+} 
 
 var getTweets = function(searchTerm, sinceId, maxId, callback){
   
@@ -26,7 +29,7 @@ var getTweets = function(searchTerm, sinceId, maxId, callback){
   var params, 
       tweets = [];
 
-  console.log('searching twitter for ', searchTerm, 'between ', sinceId, maxId);
+  console.log(scriptTimer(), 'searching twitter for ', searchTerm, 'between ', sinceId, maxId);
   
   if (maxId != null){
     params = {count:100, since_id: sinceId, max_id: maxId};
@@ -45,7 +48,7 @@ var getTweets = function(searchTerm, sinceId, maxId, callback){
 
       getTweets(searchTerm, sinceId, lowestId, function(tw){
         tweets = tweets.concat(tw);
-        console.log('tweets length ', tweets.length);
+        console.log(scriptTimer(), 'tweets length ', tweets.length);
         callback(tweets);
       });
 
@@ -71,12 +74,12 @@ MongoClient.connect(url, function(err, db) {
       
       console.log(hashtags);
       if (hashtags.length == 0){
-        console.log('no hashtags found to collect');
+        console.log(scriptTimer(), 'no hashtags found to collect');
         db.close();
       }
 
       var finishedHashtag = _.after(hashtags.length, function(){
-        console.log('all hashtags finished closing db connnection');
+        console.log(scriptTimer(), 'all hashtags finished closing db connnection');
         db.close();
       });
 
@@ -94,12 +97,12 @@ MongoClient.connect(url, function(err, db) {
         
         getTweets(hashtag.tag, maxId, function(tweets) {
           var storedTweets = _.after(tweets.length, function(){
-            console.log('stored all tweets ('+tweets.length+') for ', hashtag);
+            console.log(scriptTimer(), 'stored all tweets ('+tweets.length+') for ', hashtag);
             finishedHashtag();
           });
     
           if (tweets.length == 0){
-            console.log('finished hashtag 0 tweets');
+            console.log(scriptTimer(), 'finished hashtag 0 tweets');
             finishedHashtag();
           }
 
