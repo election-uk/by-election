@@ -11,7 +11,7 @@ var mongoUrl = 'mongodb://localhost:27017/byelection';
 app.use(express.static(__dirname + '/public'));
 
 app.get('/hw', function (req, res) {
-  res.send('Hello  ..... Zak & Jim');
+  res.send('Hello  ...... Zak & Jim');
 });
 
 app.get('/zak', function (req, res) {
