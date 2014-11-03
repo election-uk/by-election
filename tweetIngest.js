@@ -64,7 +64,7 @@ var url = 'mongodb://localhost:27017/byelection';
 MongoClient.connect(url, function(err, db) {
 	
 	console.log(err);
-  	console.log("Connected to mongo");
+  	console.log(scriptTimer(),"Connected to mongo");
 
   	var tweetCollection = db.collection('tweets');
     var hashtagCollection = db.collection('hashtags');
