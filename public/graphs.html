@@ -12,7 +12,9 @@
 		//populate top 20 hashtags
 		$.get('/hashtaggraph/20', function(data){
 			console.log(data);
-			graphdata = _.groupBy(data, '_id.hashtag');	
+			graphdata = _.groupBy(data, function(d){
+				return d._id.hashtag;
+			});	
 
 			console.log(graphdata);	
 		});
