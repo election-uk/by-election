@@ -5,12 +5,12 @@
 	
 </head>
 <body>
-	<h1>Election Hashtag Grpahs</h1>
+	<h1>Election Hashtag Graphs</h1>
 	<div id="graph"></div>
 
 	<script>
 		//populate top 20 hashtags
-		$.get('/hasthtaggraph/20', function(data){
+		$.get('/hashtaggraph/20', function(data){
 			console.log(data);
 			graphdata = _.groupBy(data, '_id.Hashtag');		
 		});
