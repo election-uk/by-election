@@ -1,0 +1,18 @@
+<head>
+	<script src="jquery-1.11.1.min.js"></script>
+	<script src="underscore.min.js"></script>
+	
+</head>
+<body>
+	<h1>Election Hashtag Grpahs</h1>
+	<div id="graph"></div>
+
+	<script>
+		//populate top 20 hashtags
+		$.get('/hasthtaggraph/20', function(data){
+			console.log(data);
+			graphdata = _.groupBy(data, '_id.Hashtag');		
+		});
+		console.log(graphdata);
+	</script>
+</body>
