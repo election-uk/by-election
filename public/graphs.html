@@ -36,15 +36,18 @@
 		//populate top 20 hashtags
 		$.get('/hashtaggraph/20', function(data){
 			console.log(data);
+
+			var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.000Z").parse;
+
+			data.forEach(function(d) {
+    			d.date = parseDate(d.ts);
+  			});
+
 			graphdata = _.groupBy(_.map(data, function(d){
 				return {hashtag: d._id.hashtag, ts: d._id.hour, val: d.value};
 			}), 'hashtag');	
 
-			var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.000Z").parse;
 
-			graphdata.forEach(function(d) {
-    			d.date = parseDate(d.ts);
-  			});
 
 			console.log(graphdata);	
 
