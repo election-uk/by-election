@@ -33,18 +33,20 @@
 	<div id="graph"></div>
 
 	<script>
+		var debug;
 		//populate top 20 hashtags
 		$.get('/hashtaggraph/20', function(data){
 			console.log(data);
 
 			var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.000Z").parse;
+			debug.parseDate = parseDate;
 
 			data.forEach(function(d) {
-    			d.date = parseDate(d.ts);
+    			d.ts = parseDate(d._id.hour);
   			});
 
 			graphdata = _.groupBy(_.map(data, function(d){
-				return {hashtag: d._id.hashtag, ts: d._id.hour, val: d.value};
+				return {hashtag: d._id.hashtag, ts: d.ts, val: d.value};
 			}), 'hashtag');	
 
 
