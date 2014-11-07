@@ -34,6 +34,9 @@
 
 	<script>
 		var debug = {};
+		var tweet;
+		var graphdata;
+		var graphArray;
 		//populate top 20 hashtags
 		$.get('/hashtaggraph/20', function(data){
 			console.log(data);
@@ -47,7 +50,14 @@
 
 			graphdata = _.groupBy(_.map(data, function(d){
 				return {hashtag: d._id.hashtag, ts: d.ts, val: d.value};
-			}), 'hashtag');	
+			}), 'hashtag');
+
+			graphArray = [];
+
+			_.each(graphdata, function(ht, tag){
+				//console.log(tag);
+				graphArray.push({hashtag: tag, values: ht});
+			});
 
 
 
@@ -105,13 +115,14 @@
 			      .attr("dy", ".71em")
 			      .style("text-anchor", "end")
 			      .text("Tweets");
-			 var tweet = svg.selectAll(".tweet")
-      			.data(graphdata)
+			
+			tweet = svg.selectAll(".tweet")
+      			.data(graphArray)
     			.enter().append("g")
       			.attr("class", "tweet");
       		tweet.append("path")
       			.attr("class", "line")
-      			.attr("d", function(d) { return line(d.hashtag); })
+      			.attr("d", function(d) { return line(d.values); })
       			//.style("stroke", function(d) { return color(d.name); });
 
 		});
