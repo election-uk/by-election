@@ -59,7 +59,7 @@ app.get('/hashtaggraph/:n', function(req, res){
 			//var q = {"_id.hashtag":"ukip"};
 			//console.log(q);
 			
-			hourly.find(q).toArray(function(err, data){
+			hourly.find(q).sort({"_id.hour":1}).toArray(function(err, data){
 					console.log('data',data);
 
 					res.setHeader('Content-Type', 'application/json');
