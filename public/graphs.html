@@ -38,7 +38,7 @@
 		var graphdata;
 		var graphArray;
 		//populate top 20 hashtags
-		$.get('/hashtaggraph/20', function(data){
+		$.get('/hashtaggraph/10', function(data){
 			console.log(data);
 
 			var parseDate = d3.time.format("%Y-%m-%dT%H:%M:%S.000Z").parse;
@@ -47,6 +47,12 @@
 			data.forEach(function(d) {
     			d.ts = parseDate(d._id.hour);
   			});
+
+  			var maxY = _.max(data, function(d){
+  				return d.value;
+  			}).value;
+
+  			console.log('maxY', maxY);
 
 			graphdata = _.groupBy(_.map(data, function(d){
 				return {hashtag: d._id.hashtag, ts: d.ts, val: d.value};
@@ -97,9 +103,7 @@
 			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 			x.domain(d3.extent(data, function(d) { return d.ts; }));
-			y.domain([0,500
-			    
-			]);
+			y.domain([0,maxY]);
 
 			svg.append("g")
 			      .attr("class", "x axis")
