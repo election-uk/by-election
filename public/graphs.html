@@ -81,7 +81,8 @@
 			var y = d3.scale.linear()
 			    .range([height, 0]);
 
-			var color = d3.scale.category10();
+			var color = d3.scale.category20();
+			lineColor = color.domain(d3.keys(graphdata));
 
 			var xAxis = d3.svg.axis()
 			    .scale(x)
@@ -127,7 +128,7 @@
       		tweet.append("path")
       			.attr("class", "line")
       			.attr("d", function(d) { return line(d.values); })
-      			//.style("stroke", function(d) { return color(d.name); });
+      			.style("stroke", function(d) { return lineColor(d.hashtag); });
 
 		});
 	</script>
